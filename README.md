@@ -55,15 +55,40 @@ python chat_responder.py
 ```bash
 python chat_initiator.py
 ```
+## ⚙️ Functional Overview
 
-## 🔐 Encryption
+### 1. `service_announcer.py`
+- Broadcasts the user's presence to the local network via UDP.
+- Sends the username in JSON format every 8 seconds.
 
-Secure messages are exchanged via:
+### 2. `peer_discovery.py`
+- Listens for broadcast messages and maintains a list of online peers.
+- Updates a local `users.json` file.
 
-1. Diffie-Hellman Key Exchange
-2. DES Encryption (ECB + PKCS5)
-3. Base64 Encoding
+### 3. `chat_initiator.py`
+- Provides a CLI menu to:
+  - List online users
+  - Start a secure or unsecure chat
+  - View chat history
+- If secure chat is selected, performs:
+  - Diffie-Hellman key exchange
+  - DES encryption using the shared secret
+  - Base64 encoding of encrypted messages
 
+### 4. `chat_responder.py`
+- Waits for incoming TCP messages.
+- If the message is encrypted:
+  - Performs key exchange
+  - Decrypts the message using the DES key derived from shared secret
+- Logs all messages (secure and unsecure) to `chatlog.txt`.
+
+---
+## 🔐 Security Mechanisms
+
+- **Diffie-Hellman Key Exchange**: Establishes a shared secret key over insecure channels.
+- **DES Encryption**: Encrypts messages using the shared secret, formatted to 8-byte blocks.
+- **Base64 Encoding**: Ensures encrypted binary messages can be transmitted over text-based protocols.
+- 
 ## 👤 Kullanıcı Senaryoları
 
 ### Senaryo 1: Ahmet sends secure message to Zeynep
@@ -81,22 +106,23 @@ Secure messages are exchanged via:
 | Message fails | Antivirus blocking socket | Allow Python in Windows Firewall |
 | Decryption fails | Wrong DH key | Ensure same p, g and proper key input |
 
-## 🧪 Wireshark Proofs
+---
 
-### 🔓 Unsecure Message Sent
-![Unsecure](images/unsecure.jpg)
+## 🧪 Wireshark Analysis
 
-### 🔓 Unsecure Message Received
-![Unsecure Received](images/received-unsecure.jpg)
+The following images show captured packets using Wireshark during secure and unsecure message exchanges:
 
-### 🔐 Secure Message Sent
-![Secure Sent](images/secure_sent1.0.jpg)
-![Secure Sent 2](images/secure_sent1.1.jpg)
+| Secure Sent | Secure Received |
+|-------------|------------------|
+| ![Secure Sent 1](images/secure_sent1.0.jpg) | ![Secure Received 1](images/received_secure2.0.jpg) |
+| ![Secure Sent 2](images/secure_sent1.1.jpg) | ![Secure Received 2](images/received_secure2.1.jpg) |
+| — | ![Secure Received 3](images/received_secure_message2.jpg) |
 
-### 🔐 Secure Message Received
-![Secure Received](images/received_secure2.0.jpg)
-![Secure Received 2](images/received_secure2.1.jpg)
-![Secure Received Log](images/received_secure_message2.jpg)
+| Unsecure Sent | Unsecure Received |
+|---------------|--------------------|
+| ![Unsecure Sent](images/unsecure.jpg) | ![Unsecure Received](images/received-unsecure.jpg) |
+
+---
 
 ## 📁 Commands Summary
 
@@ -112,7 +138,29 @@ python chat_initiator.py
 # Optional: clear logs
 del history.txt chatlog.txt users.json
 ```
+---
 
+## 📝 Requirements
+
+- Python 3.8+
+- Libraries:
+  - `pyDes`
+  - `base64`
+  - `socket`
+  - `json`
+
+Install required packages via pip:
+```bash
+pip install pyDes
+```
+
+---
+
+## 📌 Notes
+
+- Make sure all devices are on the same subnet.
+- Broadcasting IP should be modified according to your network (e.g., `192.168.1.255`).
+  
 ## 👥 Team
 
 - [Ahmet Erbey]
