@@ -1,50 +1,112 @@
 # CMP2204Project
 Computer Networks Python Project
-# P2P Chat Project
+# 🔐 Peer-to-Peer Secure Chat Application
 
-## Description
-This project implements a simple chat application using Python sockets. It consists of a server (`server.py`) and a client (`client.py`) allowing users to communicate with each other in real-time.
+This project is a peer-to-peer chat application developed for the CMP2204 course. It supports both secure (DES-encrypted) and unsecure text messaging between users on the same network.
 
-## Features
-- Real-time messaging between clients.
-- Basic command-line interface.
-- Support for multiple clients connecting to the server simultaneously.
-- Real time status of users (online/away).
-- Private chat option between users
-- Encrypted message in private sessions.
-- Private chat option between users
-- Encrypted message in private sessions.
+## 📦 Project Structure
 
-## Installation
-1. Clone the repository: `git clone https://github.com/yourusername/NetworkProject.git`
-2. Navigate to the project directory: `cd chat-project`
-3. Install dependencies (if any): `pip install -r requirements.txt`
+```
+.
+├── chat_initiator.py         # User interface to send messages
+├── chat_responder.py         # Receives and decrypts messages
+├── service_announcer.py      # Broadcasts username across network
+├── peer_discovery.py         # Listens for users on the network
+├── users.json                # Stores discovered users
+├── history.txt               # Stores sent messages
+├── chatlog.txt               # Stores received messages
+└── README.md                 # Project documentation
+```
 
-## Usage
-### Server
-1. Run the server: `python server.py`
-2. The server will start listening for connections on a specified port.
-3. Once the server is running, clients can connect to it.
+## ⚙️ Requirements
 
-### Client
-1. Run the client: `python client.py`
-2. The client will prompt you to enter your username.
-4. Once connected, you can start sending and receiving messages.
+- Python 3.10+
+- `pyDes` library  
+  Install via:
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-## Usage Example
-1. Start the server:
-2. Start a client and connect to the server:
-3. Another client connects and sends a message:
-4. Messages are exchanged between clients and displayed on the server terminal.
-5. Using the command "/private" establish a private Diffie-Hellman Key Exchange encrypted chat.
-6. To leave the private chat use "/end" command.
-7. If users do not message longer than 10 seconds users are titled as "away" in users list and if user stay away for more than 15 minutes user is kicked out from server.
+## 🧠 Features
 
-## Commands
-1. /users (type to see users and their status)
-2. /private username (type to send private chat request to the spesified user)
-3. /dhkey (server uses this command to exchange public keys between private chat peers)
-4. /accept or /reject (accept or reject the private chat request)
-5. /end (type to end the private chat session)
+- ✅ Peer discovery using UDP broadcast
+- ✅ Chat with selected peers using TCP
+- ✅ Diffie-Hellman key exchange for secure chats
+- ✅ DES encryption with base64 encoding
+- ✅ Message logging (history & received logs)
+- ✅ Supports both secure and unsecure messaging
+- ✅ Wireshark validated secure message exchange
 
-# P2P Chat Project
+## 🚀 How to Run
+
+**Step 1: Start these on both machines**
+```bash
+python service_announcer.py
+python peer_discovery.py
+```
+
+**Step 2: On the receiver machine**
+```bash
+python chat_responder.py
+```
+
+**Step 3: On the sender machine**
+```bash
+python chat_initiator.py
+```
+
+## 🔐 Encryption
+
+Secure messages are exchanged via:
+
+1. Diffie-Hellman Key Exchange
+2. DES Encryption (ECB + PKCS5)
+3. Base64 Encoding
+
+## 👤 Kullanıcı Senaryoları
+
+### Senaryo 1: Ahmet sends secure message to Zeynep
+1. Both launch announcer and discovery.
+2. Zeynep runs chat_responder.py
+3. Ahmet selects Zeynep from list and chooses secure chat.
+4. DH exchange → DES encryption → base64 → sent.
+5. Message decrypted and logged.
+
+## 🛠️ Troubleshooting & Common Errors
+
+| Issue | Cause | Solution |
+|------|-------|----------|
+| Peer not appearing | Broadcast IP mismatch | Check BROADCAST_IP based on subnet |
+| Message fails | Antivirus blocking socket | Allow Python in Windows Firewall |
+| Decryption fails | Wrong DH key | Ensure same p, g and proper key input |
+
+## 🧪 Wireshark Proofs
+
+- `secure_sent1.0.jpg`
+- `received_secure2.0.jpg`
+- `unsecure.jpg`
+
+## 📁 Commands Summary
+
+```bash
+# Start network services
+python service_announcer.py
+python peer_discovery.py
+
+# Start chat interfaces
+python chat_responder.py
+python chat_initiator.py
+
+# Optional: clear logs
+del history.txt chatlog.txt users.json
+```
+
+## 👥 Team
+
+- Ahmet [Your Name]
+- [Friend 1]
+- [Friend 2]
+
+## 📄 License
+
+For educational purposes only. Do not distribute for commercial use.
