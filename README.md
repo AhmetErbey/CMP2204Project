@@ -15,6 +15,7 @@ This project is a peer-to-peer chat application developed for the CMP2204 course
 ├── users.json                # Stores discovered users
 ├── history.txt               # Stores sent messages
 ├── chatlog.txt               # Stores received messages
+├── images/                   # Wireshark screenshots and execution proofs
 └── README.md                 # Project documentation
 ```
 
@@ -82,9 +83,20 @@ Secure messages are exchanged via:
 
 ## 🧪 Wireshark Proofs
 
-- `secure_sent1.0.jpg`
-- `received_secure2.0.jpg`
-- `unsecure.jpg`
+### 🔓 Unsecure Message Sent
+![Unsecure](images/unsecure.jpg)
+
+### 🔓 Unsecure Message Received
+![Unsecure Received](images/received-unsecure.jpg)
+
+### 🔐 Secure Message Sent
+![Secure Sent](images/secure_sent1.0.jpg)
+![Secure Sent 2](images/secure_sent1.1.jpg)
+
+### 🔐 Secure Message Received
+![Secure Received](images/received_secure2.0.jpg)
+![Secure Received 2](images/received_secure2.1.jpg)
+![Secure Received Log](images/received_secure_message2.jpg)
 
 ## 📁 Commands Summary
 
@@ -103,10 +115,7 @@ del history.txt chatlog.txt users.json
 
 ## 👥 Team
 
-- Ahmet [Your Name]
-- [Friend 1]
-- [Friend 2]
+- [Ahmet Erbey]
+- [Raouf Alipour]
+- [Gökhan Yavuz]
 
-## 📄 License
-
-For educational purposes only. Do not distribute for commercial use.
