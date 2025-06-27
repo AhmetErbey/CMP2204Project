@@ -1,0 +1,6 @@
+[2025-05-03 20:23:52] (Secure) Sent to Gokhan: Secure test message
+[2025-05-03 20:24:10] Sent to Gokhan: Unsecure test message
+[2025-05-03 20:24:10] Received from Gokhan: Message received ✔️
+[2025-05-08 18:05:40] (Secure) Sent to cansss: naber
+[2025-05-08 18:05:57] Sent to cans: naberrr
+[2025-05-08 18:13:12] (Secure) Sent to cans: aloo
